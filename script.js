@@ -150,7 +150,7 @@
 
   const [keys, useScroll] = match;
   keys.forEach(k => handlers[k]());
-  if (useScroll) initScroll();
+  // if (useScroll) initScroll();
 })();
 
 
