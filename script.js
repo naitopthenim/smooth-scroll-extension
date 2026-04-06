@@ -104,6 +104,7 @@
     m() {
       removeBySelector([
         '.center_upmanga',
+        '.center_upmangaza',
         '.center_upmangasolo',
         '#sticky-bottom',
         '#sticky-bottom2',
