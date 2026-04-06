@@ -101,6 +101,15 @@
       hideBySelector(".container-fluid .article__header center");
       injectCSS(".wbnn { display: none !important; }");
     },
+    m() {
+      removeBySelector([
+        '.center_upmanga',
+        '.center_upmangasolo',
+        '#sticky-bottom',
+        '#sticky-bottom2',
+        '#sticky-bottom3',
+      ]);
+    }
   };
 
   // Site → [handler keys, useScroll]
@@ -142,7 +151,8 @@
     "https://readrealm.co":            [["k"], true],
     "https://www.reborntrans.com":      [["l"], true],
     "https://readtoon.com":             [[], true],
-    "https://speed-manga.net":          [["c"], true],
+    "https://speed-manga.net": [["c"], true],
+    "https://www.up-manga.com": [["m"], true],
   };
 
   const match = siteMap[weblink];
