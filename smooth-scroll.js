@@ -807,4 +807,12 @@ window.__initSmoothScroll = function () {
   else
     window.SmoothScroll = SmoothScroll;
 
+  // init() is normally deferred to the 'load' event. When the toggle turns
+  // scrolling on after the page already finished loading, run it right away.
+  if (document.readyState === 'complete') {
+    init();
+  }
+
+  // Handle so the caller can tear this instance down when the toggle flips off.
+  return { destroy: cleanup };
 };

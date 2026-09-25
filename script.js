@@ -1,6 +1,9 @@
 (function () {
   const weblink = `${window.location.protocol}//${window.location.hostname}`;
 
+  // Settings shared with the popup (chrome.storage.sync)
+  const DEFAULTS = { enabled: true, smoothScroll: true };
+
   // Helpers — batch DOM changes to minimize reflows
   function injectCSS(css) {
     const s = document.createElement("style");
@@ -21,10 +24,17 @@
     if (el) el.classList.add("custom-background-color-for-body");
   }
 
-  function initScroll() {
-    if (window.__initSmoothScroll) {
-      window.__initSmoothScroll();
-    }
+  let scrollHandle = null;
+
+  function enableScroll() {
+    if (scrollHandle || typeof window.__initSmoothScroll !== "function") return;
+    scrollHandle = window.__initSmoothScroll() || {};
+  }
+
+  function disableScroll() {
+    if (!scrollHandle) return;
+    if (typeof scrollHandle.destroy === "function") scrollHandle.destroy();
+    scrollHandle = null;
   }
 
   const handlers = {
@@ -109,6 +119,7 @@
         '#sticky-bottom',
         '#sticky-bottom2',
         '#sticky-bottom3',
+        '.widget_block'
       ]);
     }
   };
@@ -154,14 +165,62 @@
     "https://readtoon.com":             [[], true],
     "https://speed-manga.net": [["c"], true],
     "https://www.up-manga.com": [["m"], true],
+    "https://nano-manga.com": [["m"], true],
+    "https://www.chaply.net": [["m"], true],
   };
 
   const match = siteMap[weblink];
+
+  // Lets the popup show what this extension actually does on the current tab.
+  if (chrome?.runtime?.onMessage) {
+    chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+      if (msg?.type !== "getSiteInfo") return;
+      sendResponse({
+        host: window.location.hostname,
+        supported: !!match,
+        hasScroll: !!(match && match[1]),
+      });
+    });
+  }
+
   if (!match) return;
 
   const [keys, useScroll] = match;
-  keys.forEach(k => handlers[k]());
-  // if (useScroll) initScroll();
+
+  let fixesApplied = false;
+
+  function applySiteFixes() {
+    if (fixesApplied) return;
+    fixesApplied = true;
+    keys.forEach(k => handlers[k]());
+  }
+
+  function apply(settings) {
+    if (!settings.enabled) {
+      disableScroll();
+      return;
+    }
+    applySiteFixes();
+    if (useScroll && settings.smoothScroll) enableScroll();
+    else disableScroll();
+  }
+
+  // No storage access (e.g. loaded without the permission) — behave as before.
+  if (!chrome?.storage?.sync) {
+    apply(DEFAULTS);
+    return;
+  }
+
+  chrome.storage.sync.get(DEFAULTS, apply);
+
+  // React to the popup toggles. Turning the extension off can't restore
+  // already-removed elements, so the popup reloads the tab for that switch;
+  // the smooth-scroll switch applies live.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== "sync") return;
+    if (!("enabled" in changes) && !("smoothScroll" in changes)) return;
+    chrome.storage.sync.get(DEFAULTS, apply);
+  });
 })();
 
 

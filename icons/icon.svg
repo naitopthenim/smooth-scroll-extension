@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a3355"/>
+      <stop offset="0.55" stop-color="#181d33"/>
+      <stop offset="1" stop-color="#0a0c18"/>
+    </linearGradient>
+    <linearGradient id="moon" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#9db4ff"/>
+      <stop offset="0.55" stop-color="#6f86f5"/>
+      <stop offset="1" stop-color="#4552c9"/>
+    </linearGradient>
+    <linearGradient id="chev" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b9c6ff"/>
+      <stop offset="1" stop-color="#6f86f5"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.28" cy="0.22" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="moonMask">
+      <rect width="128" height="128" fill="black"/>
+      <circle cx="50" cy="56" r="30" fill="white"/>
+      <circle cx="66" cy="44" r="26" fill="black"/>
+    </mask>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <rect width="128" height="128" rx="28" fill="url(#glow)"/>
+
+  <circle cx="50" cy="56" r="30" fill="url(#moon)" mask="url(#moonMask)"/>
+
+  <g fill="none" stroke="url(#chev)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M87,80 L96,88 L105,80" opacity="0.95"/>
+    <path d="M87,93 L96,101 L105,93" opacity="0.6"/>
+    <path d="M87,106 L96,114 L105,106" opacity="0.32"/>
+  </g>
+</svg>

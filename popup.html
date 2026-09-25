@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <header class="header">
+    <img class="logo" src="icons/icon48.png" width="30" height="30" alt="">
+    <div class="titles">
+      <h1>Dark Background</h1>
+      <span class="version" id="version">v0.0.0.0</span>
+    </div>
+    <label class="switch" title="Enable / disable the whole extension">
+      <input type="checkbox" id="enabled">
+      <span class="track"></span>
+    </label>
+  </header>
+
+  <main class="body">
+    <div class="row" id="scroll-row">
+      <div class="row-text">
+        <span class="row-title">Auto smooth scroll</span>
+        <span class="row-sub" id="scroll-sub">Smooth wheel &amp; keyboard scrolling</span>
+      </div>
+      <label class="switch small" title="Enable / disable smooth scrolling only">
+        <input type="checkbox" id="smoothScroll">
+        <span class="track"></span>
+      </label>
+    </div>
+
+    <div class="status" id="status">
+      <span class="dot" id="status-dot"></span>
+      <span id="status-text">Checking this site…</span>
+    </div>
+
+    <p class="note">
+      Turning the extension on or off reloads the current tab. The smooth scroll
+      switch applies immediately.
+    </p>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
