@@ -62,7 +62,7 @@
       injectCSS(`
         .dessert-frame, .w-bnn-left, .w-bnn-right, .w-bnn-bottom,
         .ads, .center_gomanga,
-        #sticky-bottom, #sticky-bottom2, #sticky-bottom3, #i1zw2bi765 {
+        #sticky-bottom, #sticky-bottom2, #sticky-bottom3, #i1zw2bi765, .blox.kln {
           display: none !important;
         }
       `);
